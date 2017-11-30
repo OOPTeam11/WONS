@@ -3,6 +3,18 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QGraphicsItem>
+#include <QMessageBox>
+#include <QString>
+#include <opencv/cv.h>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
+#include "asmOpenCV.h"
+
+using namespace ASM;
+using namespace cv;
+using namespace std;
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +39,13 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene *originScene;
+    QGraphicsScene *convertScene;
+    QGraphicsPixmapItem *originImage;
+    QGraphicsPixmapItem *convertImage;
+    Mat originMatImage;
+    Mat convertMatImage;
+
 };
 
 #endif // MAINWINDOW_H

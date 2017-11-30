@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>861</width>
-    <height>560</height>
+    <height>577</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -66,7 +66,7 @@
      <string>얼굴 바꾸기</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="originImage">
+   <widget class="QGraphicsView" name="originGraphicsView">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -76,7 +76,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="convertImage">
+   <widget class="QGraphicsView" name="convertGraphicsView">
     <property name="geometry">
      <rect>
       <x>440</x>
