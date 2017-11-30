@@ -3,7 +3,7 @@
  우리의 프로그램은 snow친구로서 사진에 이벤트 효과를 주는 프로그램입니다.
 
  ## 역할 분담
-  - GUI - 안지수★
+  - GUI - 안지수
 
   - core - 박주현
   얼굴 윤곽 및 눈, 코, 입 좌표 구하기
@@ -49,3 +49,18 @@
  > 현재 추적하고 있는 파일, 추적하지 않는 파일, 수정된 파일들등의 상태들을 보여줍니다.
 
  ```
+
+ ## 사용환경 설정
+ ```
+  운영체제: ubuntu 16.04
+  개발 환경: qt 5.9.3, opencv 3.3.0
+ ```
+
+ ### 환경 설정 방법
+ * qt 설치
+ [다운로드 링크](https://cta-service-cms2.hubspot.com/ctas/v2/public/cs/c/?cta_guid=d62710cd-e1db-46aa-8d4d-2f1c1ffdacea&placement_guid=f977210e-de67-475f-a32b-65cec207fd03&portal_id=149513&redirect_url=APefjpFgYs3CLQnyoSXrSq-8FPbwQf5IOfZxi_noHgIT00PdyAR0O9hNBpFUGtHmOZsc5PKOnOVmZDgKUvLeFTrcWJq-4RCZNsyWx6c5x0aDumr_fkkhMhRszvtRfyr1fzfLYa33MlsZm-6qeS3mmP4Y4YiEsH0bwNhoz6HreXzXjm86wMHE84x3Tu-ASEUJL3BtBxfg9L9bzwXqIM_765Ww272bg6cYUbfq3a6YLjn_3kenZH98p5M&hsutk=e74aab30f74e311652d094178d1867c8&canon=https%3A%2F%2Fwww.qt.io%2Fdownload-qt-for-application-development&click=61217d54-046e-44fa-8c91-647ea2a5f149&pageId=4588874906)
+
+ * opencv 설치
+ [설치법 링크](https://docs.opencv.org/2.4/doc/tutorials/introduction/linux_install/linux_install.html?highlight=installation)
+ 
+
