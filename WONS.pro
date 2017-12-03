@@ -31,7 +31,8 @@ SOURCES += \
 HEADERS += \
         mainwindow.h \
     asmOpenCV.h \
-    FaceReplace.h
+    FaceReplace.h \
+    facepicker.h
 
 FORMS += \
         mainwindow.ui
