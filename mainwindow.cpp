@@ -64,13 +64,41 @@ void MainWindow::on_covertImage_clicked()
 {
     //to do
 
+    convertMatImage = originMatImage.clone();
+    Mat deco = imread("/home/seolhee/사진/decoROI.png", cv::ImreadModes::IMREAD_UNCHANGED);
+    //resize(deco, deco, Size(deco.cols / 3.3, deco.rows / 3.3));
 
+    //convertMatImage = BlendingPixel(convertMatImage, deco, Point(210, 60));
+
+    const Point& location = Point(210, 60);
+        cv::Mat mbgrImgResult = convertMatImage.clone();
+        for (int y = std::max(location.y, 0); y < convertMatImage.rows; ++y)
+        {
+            int fY = y - location.y;
+            if (fY >= deco.rows)
+                break;
+            for (int x = std::max(location.x, 0); x < convertMatImage.cols; ++x)
+            {
+            int fX = x - location.x;
+            if (fX >= deco.cols)
+                break;
+            double opacity = ((double)deco.data[fY * deco.step + fX * deco.channels() + 3]) / 255.;
+                for (int c = 0; opacity > 0 && c < convertMatImage.channels(); ++c)
+                {
+                unsigned char overlayPx = deco.data[fY * deco.step + fX * deco.channels() + c];
+                unsigned char srcPx = convertMatImage.data[y * convertMatImage.step + x * convertMatImage.channels() + c];
+                mbgrImgResult.data[y * convertMatImage.step + convertMatImage.channels() * x + c] = srcPx * (1. - opacity) + overlayPx * opacity;
+                }
+            }
+        }
 
     //cvMat is opencv Mat struct
-    QImage image = cvMatToQImage(convertMatImage);
+    QImage image = cvMatToQImage(mbgrImgResult);
     //convert image set
     convertImage->setPixmap(QPixmap::fromImage(image));
 }
+
+
 
 //모자이크 - 장예솔
 void MainWindow::on_Mosaic_clicked()
