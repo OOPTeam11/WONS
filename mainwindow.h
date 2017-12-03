@@ -9,7 +9,13 @@
 #include <opencv/cv.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include "faceDetector.h" //주현
+#include <opencv2/opencv.hpp>
+#include <iostream>
+#include "opencv2/objdetect.hpp"
+#include "opencv2/videoio.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
+
 
 #include "asmOpenCV.h"
 
@@ -28,8 +34,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    FaceDetector* facedetector_;  // 주현 페이스 디텍터 선언
-    // QThread faceDetectThread_; 혹시 쓰레드 필요한 경우 쓰ㅅㅔ영
+    vector<Rect> face_pos; //ju 얼굴이랑 눈 도형이에요 얼굴은 네모 눈은 동그라미
+    vector<Rect> eye_pos; // ju
 
 private slots:
 
@@ -39,6 +45,7 @@ private slots:
     void on_Mosaic_clicked(); //모자이크 - 장예솔
     void on_calibration_clicked(); //점 (자동) 없애기 - 허정우
     void on_convertFace_clicked(); //얼굴 바꾸기 - 조민규
+
 
 private:
     Ui::MainWindow *ui;
