@@ -9,7 +9,6 @@
 #include <opencv/cv.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include "faceDetector.h" //주현
 
 #include "asmOpenCV.h"
 
@@ -28,8 +27,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    FaceDetector* facedetector_;  // 주현 페이스 디텍터 선언
-    // QThread faceDetectThread_; 혹시 쓰레드 필요한 경우 쓰ㅅㅔ영
 
 private slots:
 
