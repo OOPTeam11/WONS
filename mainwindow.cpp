@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
     convertScene->addItem(convertImage);
     ui->originGraphicsView->setScene(originScene);
     ui->convertGraphicsView->setScene(convertScene);
-
 }
 
 MainWindow::~MainWindow()
@@ -44,11 +43,16 @@ void MainWindow::openFile(const QString &fileName){
             QMessageBox::information(this,"Image Viewer","Error Displaying image");
             return;
         }
+        facedetector_ = new FaceDetector(); // 주현 셋업
         originImage->setPixmap(QPixmap::fromImage(image));
 
     }
 }
 
+/*
+    facedetector_ 안에 있는 faces 오ㅏ eyes 를 이용하세요.
+    vector<cv::Rect> 형식으로 선언도ㅣ어 이ㅆ습니다.
+*/
 /* 기본 사용법
  *
  * 먼저 opencv를 이용하여 영상처리를 하기 위해 "열기" 버튼을 눌러 이미지를 엽니다
