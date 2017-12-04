@@ -37,13 +37,20 @@ void FaceReplace::replaceAllFace(){
 
     // Matrix of domain rect. to get image of domain
     Mat domainImageMat = copiedImageMat(domainFace);
-    //imshow("domain image", domainImageMat);
+    imshow("domain image", domainImageMat);
 
     for (int index = 0; index < faces->size(); index++){
         if (!isEqual(domainFace, faces->at(index))){
+
+            // test
+            cout << index << " test" << endl;
+            string title = to_string(index) + "nd";
+            imshow(title, copiedImageMat(faces->at(index)));
+            // test
+
             Rect face = faces->at(index);
             Mat destRoi = copiedImageMat(face);
-            domainImageMat.copyTo(destRoi);
+            domainImageMat.copyTo(copiedImageMat(Rect(face.x, face.y, domainFace.width, domainFace.height)));
         }
     }
 }
