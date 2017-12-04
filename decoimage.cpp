@@ -27,7 +27,7 @@ Mat decoImage::AddImage(Mat baseImage, Mat deco, const Point& location){
             }
         }
     }
-    return result;
+    return result.clone();
 }
 \
 void decoImage::RotateImage(Mat &src, Mat &dst, int degree) {

@@ -37,6 +37,7 @@ void MainWindow::openFile(const QString &fileName){
         //image read
         QImage image(fileName);
         originMatImage =  imread(fileName.toStdString().c_str());
+        cv::resize(originMatImage, originMatImage, Size(400,500), 0, 0, CV_INTER_LINEAR);
 
         std::cout<< fileName.toStdString().c_str() <<std::endl;
         if(image.isNull()){
@@ -61,7 +62,7 @@ void MainWindow::openFile(const QString &fileName){
 
         //face check
         for(int i = 0; i<(int)face_pos.size();i++){
-            rectangle(originMatImage, face_pos[i], Scalar(0,255,0),2);
+           // rectangle(originMatImage, face_pos[i], Scalar(0,255,0),2);
         }
         //~face check
 
@@ -75,7 +76,7 @@ void MainWindow::openFile(const QString &fileName){
                 Point center(face_pos[i].x + eye_pos[j].x+(eye_pos[j].width/2),face_pos[i].y+eye_pos[j].y+(eye_pos[j].height/2));
 
                 int radius = cvRound((eye_pos[j].width+eye_pos[j].height)*0.2);
-                circle(originMatImage, center, radius, Scalar(0,0,255),2);
+                //circle(originMatImage, center, radius, Scalar(0,0,255),2);
             }
             //~eye check
         }
@@ -104,17 +105,50 @@ void MainWindow::on_covertImage_clicked()
     //to do
 
     convertMatImage = originMatImage.clone();
-    Mat deco = imread("/home/seolhee/사진/decoROI.png", cv::ImreadModes::IMREAD_UNCHANGED);
-    //resize(deco, deco, Size(deco.cols / 3.3, deco.rows / 3.3));
 
-    //convertMatImage = BlendingPixel(convertMatImage, deco, Point(210, 60));
+    Mat deco = imread("/home/caucse/다운로드/rudolph.png", cv::ImreadModes::IMREAD_UNCHANGED);
+    //deco.resize(Size(500,500));
+
 
     //get face point
     //according to face point, resize & rotate deco image
     //overlay deco image
 
+    decoImage di = decoImage();
 
+    cv::resize(deco, deco, cv::Size(face_pos[0].size()), 0, 0, CV_INTER_LINEAR);
+    for(int i=0;i<(int)face_pos.size();i++){
+        Point center(face_pos[i].x, face_pos[i].y - face_pos[i].height);
+        convertMatImage = di.AddImage(convertMatImage, deco, center);
+    }
 
+    /* heart
+    cv::resize(deco, deco, cv::Size(50, 50), 0, 0, CV_INTER_LINEAR);
+    for(int i=0;i<(int)face_pos.size();i++){
+        Point center((face_pos[i].x + face_pos[i].width/9), (face_pos[i].y + face_pos[i].height/9*4));
+        convertMatImage = di.AddImage(convertMatImage, deco, center);
+
+        Point center2((face_pos[i].x + face_pos[i].width/9*6), (face_pos[i].y + face_pos[i].height/9*4));
+        convertMatImage = di.AddImage(convertMatImage, deco, center2);
+    }
+    */
+
+    /* 볼터치
+    cv::resize(deco, deco, cv::Size(60, 60), 0, 0, CV_INTER_LINEAR);
+    for(int i=0;i<(int)face_pos.size();i++){
+        Point center((face_pos[i].x + face_pos[i].width/9), (face_pos[i].y + face_pos[i].height/9*4));
+        convertMatImage = di.AddImage(convertMatImage, deco, center);
+
+        Point center2((face_pos[i].x + face_pos[i].width/9*6), (face_pos[i].y + face_pos[i].height/9*4));
+        convertMatImage = di.AddImage(convertMatImage, deco, center2);
+    }
+    */
+
+    /* cat
+    cv::resize(deco, deco, cv::Size(face_pos[0].size()*2), 0, 0, CV_INTER_LINEAR);
+    //Point center((face_pos[0].x + face_pos[0].width/2), (face_pos[0].y + face_pos[0].height/2));
+    convertMatImage = di.AddImage(convertMatImage, deco, Point(face_pos[0].x - (face_pos[0].width/2), face_pos[0].y - (face_pos[0].height/2)));
+    */
 
     //cvMat is opencv Mat struct
     QImage image = cvMatToQImage(convertMatImage);
