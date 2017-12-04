@@ -18,7 +18,7 @@ private:
 
 public:
        Mosaic(cv::Mat *frame);
-       void Do_Mosaic(vector<Rect> face_all);
+       Mat* Do_Mosaic(vector<Rect> face_all);
 
 };
 #endif // MOSAIC_H
