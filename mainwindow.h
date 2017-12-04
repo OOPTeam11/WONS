@@ -19,6 +19,8 @@
 
 #include "asmOpenCV.h"
 
+#include "FaceReplace.h"
+
 using namespace ASM;
 using namespace cv;
 using namespace std;
