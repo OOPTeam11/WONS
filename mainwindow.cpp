@@ -44,8 +44,8 @@ void MainWindow::openFile(const QString &fileName){
             return;
         }
 
-        String face_cascade = "/home/mingyu/wons/WONS/resource/haarcascade_frontalface_default.xml";   //학습된 정보에요
-        String eye_cascade = "/home/mingyu/wons/WONS/resource/haarcascade_eye.xml";                   //학습된 정보에요
+        String face_cascade = "/home/caucse/mingyu/WONS/resource/haarcascade_frontalface_default.xml";   //학습된 정보에요
+        String eye_cascade = "/home/caucse/mingyu/WONS/resource/haarcascade_eye.xml";                   //학습된 정보에요
         Mat gray; // ju
         CascadeClassifier face; //얼굴 정보 저장소
         CascadeClassifier eye; // 눈 정보 저장소
@@ -124,11 +124,44 @@ void MainWindow::on_Mosaic_clicked()
 }
 
 //점 (자동) 없애기 - 허정우
+int rect_size=10;
+
+void onChange(int pos, void* param){}
+
+void onMouseEvent(int event, int x, int y, int flags, void* dstImage){
+    Mat mouseImage = *(Mat*)dstImage;
+    createTrackbar("size", "convertImage", &rect_size, 255, onChange, (void*)&mouseImage);
+
+    if(event != CV_EVENT_LBUTTONDOWN){
+        cout << "size :: " << rect_size << endl;
+        Mat tempImage = mouseImage.clone();
+        Rect unClickedRect(x-(rect_size/2), y-(rect_size/2), rect_size, rect_size);
+        rectangle(tempImage, unClickedRect, Scalar(255,0,0),1);
+        imshow("convertImage", tempImage);
+
+    }else if(event == CV_EVENT_LBUTTONDOWN){
+        Rect clickedRect(x-(rect_size/2), y-(rect_size/2), rect_size, rect_size);
+        Mat mask = getStructuringElement(MORPH_RECT, Size(3,3), Point(1,1));
+
+        dilate((*(Mat*)dstImage)(clickedRect), mouseImage(clickedRect), mask,Point(-1,-1),3);
+        erode((*(Mat*)dstImage)(clickedRect), mouseImage(clickedRect), mask,Point(-1,-1),3);
+        medianBlur((*(Mat*)dstImage)(clickedRect), mouseImage(clickedRect),5);
+
+        imshow("convertImage", mouseImage);
+    }
+}
+
 void MainWindow::on_calibration_clicked()
 {
     //to do
+    convertMatImage = originMatImage;
+    namedWindow("convertImage");
+    imshow("convertImage", convertMatImage);
+    setMouseCallback("convertImage", onMouseEvent, (void*)&convertMatImage);
 
-
+    if(cvWaitKey() == 'q'){
+        destroyWindow("convertImage");
+    }
 
     //cvMat is opencv Mat struct
     QImage image = cvMatToQImage(convertMatImage);
