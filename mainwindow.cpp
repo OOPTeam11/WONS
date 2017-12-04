@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "Mosaic.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -44,7 +46,6 @@ void MainWindow::openFile(const QString &fileName){
             QMessageBox::information(this,"Image Viewer","Error Displaying image");
             return;
         }
-
         String face_cascade = "../WONS/resource/haarcascade_frontalface_default.xml";   //학습된 정보에요
         String eye_cascade = "../WONS/resource/haarcascade_eye.xml";                   //학습된 정보에요
 
@@ -60,28 +61,28 @@ void MainWindow::openFile(const QString &fileName){
         face.detectMultiScale(gray,face_pos, 1.1, 3, 0 | CV_HAAR_SCALE_IMAGE, Size(10,10));
         //~face tracker
 
-        //face check
+        /*face check
         for(int i = 0; i<(int)face_pos.size();i++){
            // rectangle(originMatImage, face_pos[i], Scalar(0,255,0),2);
         }
-        //~face check
+        ~face check*/
 
         //eye tracker
         for(int i=0;i<(int)face_pos.size();i++){
             Mat roi = gray(face_pos[i]);
             eye.detectMultiScale(roi,eye_pos,1.1,3,0 |CV_HAAR_SCALE_IMAGE,Size(10,10));
 
-            //eye check
+            /*eye check
             for(int j=0;j<(int)eye_pos.size();j++){
                 Point center(face_pos[i].x + eye_pos[j].x+(eye_pos[j].width/2),face_pos[i].y+eye_pos[j].y+(eye_pos[j].height/2));
 
                 int radius = cvRound((eye_pos[j].width+eye_pos[j].height)*0.2);
                 //circle(originMatImage, center, radius, Scalar(0,0,255),2);
             }
-            //~eye check
+            ~eye check*/
         }
 
-        image = cvMatToQImage(originMatImage);  // 네모랑 동그라미를  확인하고싶으면 주석풀어요
+        //image = cvMatToQImage(originMatImage);  // 네모랑 동그라미를  확인하고싶으면 주석풀어요
         //~eye tracker
         originImage->setPixmap(QPixmap::fromImage(image));
 
@@ -162,8 +163,9 @@ void MainWindow::on_covertImage_clicked()
 void MainWindow::on_Mosaic_clicked()
 {
     //to do
+    Mosaic mosaic_image = Mosaic(&originMatImage);
 
-
+    convertMatImage = *mosaic_image.Do_Mosaic(face_pos);
 
     //cvMat is opencv Mat struct
     QImage image = cvMatToQImage(convertMatImage);
@@ -172,11 +174,44 @@ void MainWindow::on_Mosaic_clicked()
 }
 
 //점 (자동) 없애기 - 허정우
+int rect_size=10;
+
+void onChange(int pos, void* param){}
+
+void onMouseEvent(int event, int x, int y, int flags, void* dstImage){
+    Mat mouseImage = *(Mat*)dstImage;
+    createTrackbar("size", "convertImage", &rect_size, 255, onChange, (void*)&mouseImage);
+
+    if(event != CV_EVENT_LBUTTONDOWN){
+        cout << "size :: " << rect_size << endl;
+        Mat tempImage = mouseImage.clone();
+        Rect unClickedRect(x-(rect_size/2), y-(rect_size/2), rect_size, rect_size);
+        rectangle(tempImage, unClickedRect, Scalar(255,0,0),1);
+        imshow("convertImage", tempImage);
+
+    }else if(event == CV_EVENT_LBUTTONDOWN){
+        Rect clickedRect(x-(rect_size/2), y-(rect_size/2), rect_size, rect_size);
+        Mat mask = getStructuringElement(MORPH_RECT, Size(3,3), Point(1,1));
+
+        dilate((*(Mat*)dstImage)(clickedRect), mouseImage(clickedRect), mask,Point(-1,-1),3);
+        erode((*(Mat*)dstImage)(clickedRect), mouseImage(clickedRect), mask,Point(-1,-1),3);
+        medianBlur((*(Mat*)dstImage)(clickedRect), mouseImage(clickedRect),5);
+
+        imshow("convertImage", mouseImage);
+    }
+}
+
 void MainWindow::on_calibration_clicked()
 {
     //to do
+    convertMatImage = originMatImage;
+    namedWindow("convertImage");
+    imshow("convertImage", convertMatImage);
+    setMouseCallback("convertImage", onMouseEvent, (void*)&convertMatImage);
 
-
+    if(cvWaitKey() == 'q'){
+        destroyWindow("convertImage");
+    }
 
     //cvMat is opencv Mat struct
     QImage image = cvMatToQImage(convertMatImage);

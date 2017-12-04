@@ -27,7 +27,8 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     facereplace.cpp \
-    decoimage.cpp
+    decoimage.cpp \
+    mosaic.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -35,7 +36,7 @@ HEADERS += \
     decoimage.h \
     FaceReplace.h \
     facepicker.h \
-    decoimage.h
+    Mosaic.h
 
 FORMS += \
         mainwindow.ui

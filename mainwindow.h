@@ -21,6 +21,7 @@
 
 #include "FaceReplace.h"
 
+
 using namespace ASM;
 using namespace cv;
 using namespace std;
@@ -38,6 +39,7 @@ public:
     ~MainWindow();
     vector<Rect> face_pos; //ju 얼굴이랑 눈 도형이에요 얼굴은 네모 눈은 동그라미
     vector<Rect> eye_pos; // ju
+
 
 private slots:
 
