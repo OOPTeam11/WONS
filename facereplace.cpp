@@ -1,9 +1,12 @@
 #include "FaceReplace.h"
 
-void FaceReplace::loadImageData(Mat *originImageMat = 0, vector<Rect> *faces = 0, vector<Rect> *eyes = 0){
+using namespace std;
+using namespace cv;
+
+void FaceReplace::loadImageData(Mat *originImageMat, vector<Rect> *faces, vector<Rect> *eyes){
     // # copying image part
     // if copied image already exist, free image
-    if (this->copiedImage != NULL){releaseCopiedImage();}
+    if (!this->copiedImageMat.empty()){releaseCopiedImage();}
     this->copiedImageMat = originImageMat->clone();
 
     // # connect vector data part
@@ -15,7 +18,7 @@ void FaceReplace::loadImageData(Mat *originImageMat = 0, vector<Rect> *faces = 0
 
 void FaceReplace::selectDomainFace(int index){
     if (0 <= index && index < faces->size()){
-        domainFace = faces[index];
+        domainFace = faces->at(index);
     }
     else {
         domainFace = *(faces->begin());
@@ -33,21 +36,20 @@ void FaceReplace::replaceAllFace(){
     // ROI(Region of interest) : region that we need to modify
 
     // Matrix of domain rect. to get image of domain
-    Mat domainImageMat = copiedImageMat(domainRect);
-#ifdef Debug
-    imshow("domain image", domainImageMat);
-#endif
+    Mat domainImageMat = copiedImageMat(domainFace);
+    //imshow("domain image", domainImageMat);
 
-    for (int index = 0; index < faces->size(); i++){
-        if (!isEqual(domainFace, faces[index])){
-            Rect face = faces[index];
-            domainImageMat.copyTo(copiedImageMat, face);
+    for (int index = 0; index < faces->size(); index++){
+        if (!isEqual(domainFace, faces->at(index))){
+            Rect face = faces->at(index);
+            Mat destRoi = copiedImageMat(face);
+            domainImageMat.copyTo(destRoi);
         }
     }
 }
 
-IplImage* FaceReplace::getChangedImage(){
-    return copiedImage;
+Mat* FaceReplace::getChangedImage(){
+    return &copiedImageMat;
 }
 
 void FaceReplace::releaseCopiedImage(){

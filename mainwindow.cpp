@@ -44,8 +44,8 @@ void MainWindow::openFile(const QString &fileName){
             return;
         }
 
-        String face_cascade = "resources/haarcascade_frontalface_default.xml";   //학습된 정보에요
-        String eye_cascade = "resources/haarcascade_eye.xml";                   //학습된 정보에요
+        String face_cascade = "/home/mingyu/wons/WONS/resource/haarcascade_frontalface_default.xml";   //학습된 정보에요
+        String eye_cascade = "/home/mingyu/wons/WONS/resource/haarcascade_eye.xml";                   //학습된 정보에요
         Mat gray; // ju
         CascadeClassifier face; //얼굴 정보 저장소
         CascadeClassifier eye; // 눈 정보 저장소
@@ -79,7 +79,7 @@ void MainWindow::openFile(const QString &fileName){
             //~eye check
         }
 
-        //image = cvMatToQImage(originMatImage);  // 네모랑 동그라미를  확인하고싶으면 주석풀어요
+        image = cvMatToQImage(originMatImage);  // 네모랑 동그라미를  확인하고싶으면 주석풀어요
         //~eye tracker
         originImage->setPixmap(QPixmap::fromImage(image));
 
@@ -140,13 +140,23 @@ void MainWindow::on_calibration_clicked()
 void MainWindow::on_convertFace_clicked()
 {
     //to do
-
-
+    FaceReplace *faceReplace = new FaceReplace();
+    cout << "create face replace object" << endl;
+    faceReplace->loadImageData(&originMatImage, &face_pos, &eye_pos);
+    cout << "load data from main" << endl;
+    faceReplace->selectDomainFace(0);
+    cout << "select 0" << endl;
+    faceReplace->replaceAllFace();
+     cout << "replace" << endl;
+    convertMatImage = *faceReplace->getChangedImage();
 
     //cvMat is opencv Mat struct
     QImage image = cvMatToQImage(convertMatImage);
     //convert image set
     convertImage->setPixmap(QPixmap::fromImage(image));
+
+    // to save mem
+    faceReplace->releaseCopiedImage();
 }
 
 
