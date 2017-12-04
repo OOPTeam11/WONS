@@ -25,11 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    convertimage.cpp
 
 HEADERS += \
         mainwindow.h \
-    asmOpenCV.h
+    asmOpenCV.h \
+    convertimage.h
 
 FORMS += \
         mainwindow.ui

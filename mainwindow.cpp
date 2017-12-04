@@ -70,27 +70,12 @@ void MainWindow::on_covertImage_clicked()
 
     //convertMatImage = BlendingPixel(convertMatImage, deco, Point(210, 60));
 
-    const Point& location = Point(210, 60);
-        cv::Mat mbgrImgResult = convertMatImage.clone();
-        for (int y = std::max(location.y, 0); y < convertMatImage.rows; ++y)
-        {
-            int fY = y - location.y;
-            if (fY >= deco.rows)
-                break;
-            for (int x = std::max(location.x, 0); x < convertMatImage.cols; ++x)
-            {
-            int fX = x - location.x;
-            if (fX >= deco.cols)
-                break;
-            double opacity = ((double)deco.data[fY * deco.step + fX * deco.channels() + 3]) / 255.;
-                for (int c = 0; opacity > 0 && c < convertMatImage.channels(); ++c)
-                {
-                unsigned char overlayPx = deco.data[fY * deco.step + fX * deco.channels() + c];
-                unsigned char srcPx = convertMatImage.data[y * convertMatImage.step + x * convertMatImage.channels() + c];
-                mbgrImgResult.data[y * convertMatImage.step + convertMatImage.channels() * x + c] = srcPx * (1. - opacity) + overlayPx * opacity;
-                }
-            }
-        }
+    //get face point
+    //according to face point, resize & rotate deco image
+    //overlay deco image
+
+
+
 
     //cvMat is opencv Mat struct
     QImage image = cvMatToQImage(mbgrImgResult);
