@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "Mosaic.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -115,7 +117,9 @@ void MainWindow::on_Mosaic_clicked()
 {
     //to do
 
+    Mosaic mosaic_image = Mosaic(&originMatImage);
 
+    mosaic_image.Do_Mosaic(face_pos);
 
     //cvMat is opencv Mat struct
     QImage image = cvMatToQImage(convertMatImage);

@@ -25,13 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    mosaic.cpp
 
 HEADERS += \
         mainwindow.h \
     asmOpenCV.h \
     FaceReplace.h \
-    facepicker.h
+    facepicker.h \
+    facepicker.h \
+    Mosaic.h
 
 FORMS += \
         mainwindow.ui
