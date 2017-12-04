@@ -1,11 +1,10 @@
 #include "FaceReplace.h"
 
-void FaceReplace::loadImageData(IplImage *originImage = 0, vector<Rect> *faces = 0, vector<Rect> *eyes = 0){
+void FaceReplace::loadImageData(Mat *originImageMat = 0, vector<Rect> *faces = 0, vector<Rect> *eyes = 0){
     // # copying image part
     // if copied image already exist, free image
     if (this->copiedImage != NULL){releaseCopiedImage();}
-    this->copiedImage = cvCloneImage(originImage);
-    this->copiedImageMat = cvarrToMat(this->copiedImage);
+    this->copiedImageMat = originImageMat->clone();
 
     // # connect vector data part
     this->faces = faces;
@@ -51,6 +50,6 @@ IplImage* FaceReplace::getChangedImage(){
     return copiedImage;
 }
 
-void releaseCopiedImage(){
-
+void FaceReplace::releaseCopiedImage(){
+    this->copiedImageMat.release();
 }
