@@ -121,7 +121,6 @@ void MainWindow::on_covertImage_clicked()
 void MainWindow::on_Mosaic_clicked()
 {
     //to do
-    std::cout << "Mosaic clicked!!" << std::endl;
     Mosaic mosaic_image = Mosaic(&originMatImage);
 
     convertMatImage = *mosaic_image.Do_Mosaic(face_pos);
