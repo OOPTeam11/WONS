@@ -26,14 +26,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    convertimage.cpp
+    facereplace.cpp \
+    decoimage.cpp
 
 HEADERS += \
         mainwindow.h \
     asmOpenCV.h \
-    convertimage.h
+    decoimage.h \
     FaceReplace.h \
-    facepicker.h
+    facepicker.h \
+    decoimage.h
 
 FORMS += \
         mainwindow.ui

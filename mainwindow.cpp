@@ -44,8 +44,8 @@ void MainWindow::openFile(const QString &fileName){
             return;
         }
 
-        String face_cascade = "resources/haarcascade_frontalface_default.xml";   //학습된 정보에요
-        String eye_cascade = "resources/haarcascade_eye.xml";                   //학습된 정보에요
+        String face_cascade = "../resource/haarcascade_frontalface_default.xml";   //학습된 정보에요
+        String eye_cascade = "../resource/haarcascade_eye.xml";                   //학습된 정보에요
         Mat gray; // ju
         CascadeClassifier face; //얼굴 정보 저장소
         CascadeClassifier eye; // 눈 정보 저장소
@@ -116,7 +116,7 @@ void MainWindow::on_covertImage_clicked()
 
 
     //cvMat is opencv Mat struct
-    QImage image = cvMatToQImage(mbgrImgResult);
+    QImage image = cvMatToQImage(convertMatImage);
     //convert image set
     convertImage->setPixmap(QPixmap::fromImage(image));
 }

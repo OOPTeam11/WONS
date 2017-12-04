@@ -16,7 +16,7 @@
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
 
-
+#include "decoimage.h"
 #include "asmOpenCV.h"
 
 using namespace ASM;
