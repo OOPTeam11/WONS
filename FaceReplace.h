@@ -28,18 +28,17 @@ class FaceReplace{
 public :
 
     // init all data. copy origin image
-    void loadImageData(IplImage *originImage = 0, vector<Rect> *faces = 0, vector<Rect> *eyes = 0);
+    void loadImageData(Mat *originImageMat = 0, vector<Rect> *faces = 0, vector<Rect> *eyes = 0);
     // select face to copy
     void selectDomainFace(int index);
     // replace all face with selected face
     void replaceAllFace();
     // return image
-    IplImage* getChangedImage();
+    Mat* getChangedImage();
     // free image
     void releaseCopiedImage();
 
 private:
-    IplImage *copiedImage;
     Mat copiedImageMat;
     //FaceData faceData
     Rect domainFace;
