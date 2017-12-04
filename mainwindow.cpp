@@ -44,8 +44,8 @@ void MainWindow::openFile(const QString &fileName){
             return;
         }
 
-        String face_cascade = "/home/caucse/mingyu/WONS/resource/haarcascade_frontalface_default.xml";   //학습된 정보에요
-        String eye_cascade = "/home/caucse/mingyu/WONS/resource/haarcascade_eye.xml";                   //학습된 정보에요
+        String face_cascade = "/home/mingyu/wons/WONS/resource/haarcascade_frontalface_default.xml";   //학습된 정보에요
+        String eye_cascade = "/home/mingyu/wons/WONS/resource/haarcascade_eye.xml";                   //학습된 정보에요
         Mat gray; // ju
         CascadeClassifier face; //얼굴 정보 저장소
         CascadeClassifier eye; // 눈 정보 저장소
@@ -58,28 +58,28 @@ void MainWindow::openFile(const QString &fileName){
         face.detectMultiScale(gray,face_pos, 1.1, 3, 0 | CV_HAAR_SCALE_IMAGE, Size(10,10));
         //~face tracker
 
-        //face check
+        /*face check
         for(int i = 0; i<(int)face_pos.size();i++){
             rectangle(originMatImage, face_pos[i], Scalar(0,255,0),2);
         }
-        //~face check
+        ~face check*/
 
         //eye tracker
         for(int i=0;i<(int)face_pos.size();i++){
             Mat roi = gray(face_pos[i]);
             eye.detectMultiScale(roi,eye_pos,1.1,3,0 |CV_HAAR_SCALE_IMAGE,Size(10,10));
 
-            //eye check
+            /*eye check
             for(int j=0;j<(int)eye_pos.size();j++){
                 Point center(face_pos[i].x + eye_pos[j].x+(eye_pos[j].width/2),face_pos[i].y+eye_pos[j].y+(eye_pos[j].height/2));
 
                 int radius = cvRound((eye_pos[j].width+eye_pos[j].height)*0.2);
                 circle(originMatImage, center, radius, Scalar(0,0,255),2);
             }
-            //~eye check
+            ~eye check*/
         }
 
-        image = cvMatToQImage(originMatImage);  // 네모랑 동그라미를  확인하고싶으면 주석풀어요
+        //image = cvMatToQImage(originMatImage);  // 네모랑 동그라미를  확인하고싶으면 주석풀어요
         //~eye tracker
         originImage->setPixmap(QPixmap::fromImage(image));
 
