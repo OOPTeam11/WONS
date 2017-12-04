@@ -8,7 +8,7 @@ Mosaic::Mosaic(Mat *test_picture){
     this -> frame = test_picture;
 }
 
-void Mosaic::Do_Mosaic(vector<Rect> face_all) {
+Mat* Mosaic::Do_Mosaic(vector<Rect> face_all) {
 
     for(int faces = 0; faces < face_all.size(); faces++){
 
@@ -78,4 +78,6 @@ void Mosaic::Do_Mosaic(vector<Rect> face_all) {
             }
         }
     }
+
+    return frame;
 }
