@@ -1,8 +1,10 @@
 #include "decoimage.h"
 
-decoImage::decoImage()
+decoImage::decoImage(Mat originMatImage, vector<Rect> *face_pos, int index)
 {
-
+    this->originMatImage = originMatImage;
+    this->index = index;
+    this->face_pos = face_pos;
 }
 
 Mat decoImage::AddImage(Mat baseImage, Mat deco, const Point& location){
@@ -29,7 +31,53 @@ Mat decoImage::AddImage(Mat baseImage, Mat deco, const Point& location){
     }
     return result.clone();
 }
-\
+
+Mat decoImage::Deco() {
+    Mat convertMatImage = originMatImage.clone();
+    switch(index) {
+    case cat:
+        deco = imread("../WONS/resource/cat.png", cv::ImreadModes::IMREAD_UNCHANGED);
+        for(int i=0;i<(int)face_pos->size();i++){
+            cv::resize(deco, deco, cv::Size(face_pos->at(i).size()*2), 0, 0, CV_INTER_LINEAR);
+            Point center(face_pos->at(i).x - (face_pos->at(i).width/2), face_pos->at(i).y - (face_pos->at(i).height/2));
+            convertMatImage = AddImage(convertMatImage, deco, center);
+        }
+        break;
+    case rudolph:
+        deco = imread("../WONS/resource/rudolph.png", cv::ImreadModes::IMREAD_UNCHANGED);
+        for(int i=0;i<(int)face_pos->size();i++){
+            cv::resize(deco, deco, cv::Size(face_pos->at(i).size()), 0, 0, CV_INTER_LINEAR);
+            Point center(face_pos->at(i).x, face_pos->at(i).y - face_pos->at(i).height);
+            convertMatImage = AddImage(convertMatImage, deco, center);
+        }
+        break;
+    case cheek:
+        deco = imread("../WONS/resource/cheek.png", cv::ImreadModes::IMREAD_UNCHANGED);
+        for(int i=0;i<(int)face_pos->size();i++){
+            cv::resize(deco, deco, cv::Size(face_pos->at(i).size()/3), 0, 0, CV_INTER_LINEAR);
+            Point center((face_pos->at(i).x + face_pos->at(i).width/9), (face_pos->at(i).y + face_pos->at(i).height/9*4));
+            convertMatImage = AddImage(convertMatImage, deco, center);
+
+            Point center2((face_pos->at(i).x + face_pos->at(i).width/9*6), (face_pos->at(i).y + face_pos->at(i).height/9*4));
+            convertMatImage = AddImage(convertMatImage, deco, center2);
+        }
+        break;
+    case blusher:
+        deco = imread("../WONS/resource/blusher.png", cv::ImreadModes::IMREAD_UNCHANGED);
+        cv::resize(deco, deco, cv::Size(30, 30), 0, 0, CV_INTER_LINEAR);
+        for(int i=0;i<(int)face_pos->size();i++){
+            cv::resize(deco, deco, cv::Size(face_pos->at(i).size()/3), 0, 0, CV_INTER_LINEAR);
+            Point center((face_pos->at(i).x + face_pos->at(i).width/9), (face_pos->at(i).y + face_pos->at(i).height/9*4));
+            convertMatImage = AddImage(convertMatImage, deco, center);
+
+            Point center2((face_pos->at(i).x + face_pos->at(i).width/9*6), (face_pos->at(i).y + face_pos->at(i).height/9*4));
+            convertMatImage = AddImage(convertMatImage, deco, center2);
+        }
+        break;
+    }
+    return convertMatImage.clone();
+}
+
 void decoImage::RotateImage(Mat &src, Mat &dst, int degree) {
     //이미지 사이즈
     double height = dst.rows;

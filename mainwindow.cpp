@@ -48,7 +48,7 @@ void MainWindow::openFile(const QString &fileName){
         //image read
         QImage image(fileName);
         originMatImage =  imread(fileName.toStdString().c_str());
-        cv::resize(originMatImage, originMatImage, Size(400,500), 0, 0, CV_INTER_LINEAR);
+        //cv::resize(originMatImage, originMatImage, Size(651,601), 0, 0, CV_INTER_LINEAR);
 
         std::cout<< fileName.toStdString().c_str() <<std::endl;
         if(image.isNull()){
@@ -117,7 +117,7 @@ void MainWindow::on_covertImage_clicked()
 {
     int index;
     /* cat = 0
-     * rudolf = 1
+     * rudolph = 1
      * cheek = 2
      * blusher = 3
      */
@@ -128,61 +128,15 @@ void MainWindow::on_covertImage_clicked()
     if(index = buttonDialog->exec()){
         //index = buttonDialog->result();
     }
-    //이게 잘 나오나 확인해 주세요!
-    std::cout<<index<<std::endl;
-
-   // convertMatImage = originMatImage.clone();
-
-    Mat deco = imread("/home/caucse/다운로드/rudolph.png", cv::ImreadModes::IMREAD_UNCHANGED);
-
-
-
-    convertMatImage = originMatImage.clone();
-    //get face point
-    //according to face point, resize & rotate deco image
-    //overlay deco image
-
-
-    decoImage di = decoImage();
-
-    cv::resize(deco, deco, cv::Size(face_pos[0].size()), 0, 0, CV_INTER_LINEAR);
-    //for(int i=0;i<(int)face_pos.size();i++){
-      //  Point center(face_pos[i].x, face_pos[i].y - face_pos[i].height);
-        //convertMatImage = di.AddImage(convertMatImage, deco, center);
-    //}
-
-    /* heart
-    cv::resize(deco, deco, cv::Size(50, 50), 0, 0, CV_INTER_LINEAR);
-    for(int i=0;i<(int)face_pos.size();i++){
-        Point center((face_pos[i].x + face_pos[i].width/9), (face_pos[i].y + face_pos[i].height/9*4));
-        convertMatImage = di.AddImage(convertMatImage, deco, center);
-
-        Point center2((face_pos[i].x + face_pos[i].width/9*6), (face_pos[i].y + face_pos[i].height/9*4));
-        convertMatImage = di.AddImage(convertMatImage, deco, center2);
-    }
-    */
-
-    /* 볼터치
-    cv::resize(deco, deco, cv::Size(60, 60), 0, 0, CV_INTER_LINEAR);
-    for(int i=0;i<(int)face_pos.size();i++){
-        Point center((face_pos[i].x + face_pos[i].width/9), (face_pos[i].y + face_pos[i].height/9*4));
-        convertMatImage = di.AddImage(convertMatImage, deco, center);
-
-        Point center2((face_pos[i].x + face_pos[i].width/9*6), (face_pos[i].y + face_pos[i].height/9*4));
-        convertMatImage = di.AddImage(convertMatImage, deco, center2);
-    }
-    */
-
-    /* cat
-    cv::resize(deco, deco, cv::Size(face_pos[0].size()*2), 0, 0, CV_INTER_LINEAR);
-    //Point center((face_pos[0].x + face_pos[0].width/2), (face_pos[0].y + face_pos[0].height/2));
-    convertMatImage = di.AddImage(convertMatImage, deco, Point(face_pos[0].x - (face_pos[0].width/2), face_pos[0].y - (face_pos[0].height/2)));
-    */
+    //add deco image
+    decoImage di = decoImage(originMatImage, &face_pos, index);
+    convertMatImage = di.Deco();
 
     //cvMat is opencv Mat struct
     QImage image = cvMatToQImage(convertMatImage);
     //convert image set
     convertImage->setPixmap(QPixmap::fromImage(image));
+    ui->convertGraphicsView->fitInView(convertImage,Qt::KeepAspectRatio);
 }
 
 
@@ -199,6 +153,7 @@ void MainWindow::on_Mosaic_clicked()
     QImage image = cvMatToQImage(convertMatImage);
     //convert image set
     convertImage->setPixmap(QPixmap::fromImage(image));
+    ui->convertGraphicsView->fitInView(convertImage,Qt::KeepAspectRatio);
 }
 
 //점 (자동) 없애기 - 허정우
@@ -213,6 +168,7 @@ void onMouseEvent(int event, int x, int y, int flags, void* dstImage){
     if(event != CV_EVENT_LBUTTONDOWN){
         cout << "size :: " << rect_size << endl;
         Mat tempImage = mouseImage.clone();
+        QGraphicsPixmapItem *originImage;
         Rect unClickedRect(x-(rect_size/2), y-(rect_size/2), rect_size, rect_size);
         rectangle(tempImage, unClickedRect, Scalar(255,0,0),1);
         imshow("convertImage", tempImage);
@@ -245,6 +201,7 @@ void MainWindow::on_calibration_clicked()
     QImage image = cvMatToQImage(convertMatImage);
     //convert image set
     convertImage->setPixmap(QPixmap::fromImage(image));
+    ui->convertGraphicsView->fitInView(convertImage,Qt::KeepAspectRatio);
 }
 
 //얼굴 바꾸기 - 조민규
@@ -268,6 +225,7 @@ void MainWindow::on_convertFace_clicked()
 
     // to save mem
     faceReplace->releaseCopiedImage();
+    ui->convertGraphicsView->fitInView(convertImage,Qt::KeepAspectRatio);
 }
 
 
@@ -276,3 +234,12 @@ qt에서 이미지를 표시하려면 QPixmap으로 변경해야 합니다.
 아래 소스코드는 변경하는 방법입니다.
 QImage = cvMatToQImage( cvMat);
 */
+
+void MainWindow::on_saveButton_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+           tr("Save File"), "",
+           tr("All Files (*)"));
+    string jpgFileName = fileName.toStdString() + ".jpg";
+    imwrite(jpgFileName, convertMatImage);
+}

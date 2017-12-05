@@ -51,6 +51,10 @@ private slots:
     void on_convertFace_clicked(); //얼굴 바꾸기 - 조민규
 
 
+    void on_openButton_2_clicked();
+
+    void on_saveButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *originScene;

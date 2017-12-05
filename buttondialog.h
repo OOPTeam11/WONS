@@ -28,7 +28,7 @@ private:
     Ui::ButtonDialog *ui;
     enum{
         cat = 0,
-        rudolf,
+        rudolph,
         cheek,
         blusher
     };

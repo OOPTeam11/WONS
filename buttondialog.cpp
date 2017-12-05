@@ -27,7 +27,7 @@ void ButtonDialog::on_cheekButton_clicked()
 
 void ButtonDialog::on_RudolfButton_clicked()
 {
-    done(rudolf);
+    done(rudolph);
     this->close();
 }
 
