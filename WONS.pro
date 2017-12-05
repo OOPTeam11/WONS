@@ -28,7 +28,9 @@ SOURCES += \
         mainwindow.cpp \
     facereplace.cpp \
     decoimage.cpp \
-    mosaic.cpp
+    mosaic.cpp \
+    buttondialog.cpp
+
 
 HEADERS += \
         mainwindow.h \
@@ -36,10 +38,12 @@ HEADERS += \
     decoimage.h \
     FaceReplace.h \
     facepicker.h \
-    Mosaic.h
+    Mosaic.h \
+    buttondialog.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    buttondialog.ui
 
 INCLUDEPATH += /usr/local/include/opencv
 INCLUDEPATH += /usr/local/include/opencv2

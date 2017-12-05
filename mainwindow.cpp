@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "Mosaic.h"
+#include "buttondialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,6 +20,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->originGraphicsView->setScene(originScene);
     ui->convertGraphicsView->setScene(convertScene);
 
+    //setting mainPane image
+    QImage image("../WONS/resource/mainpane.png");
+    QImage scaledImage = image.scaled(649,488,Qt::KeepAspectRatio);
+    originImage->setPixmap(QPixmap::fromImage(scaledImage));
+    convertImage->setPixmap(QPixmap::fromImage(scaledImage));
+
+    //set title
+    this->setWindowTitle("WONS");
 }
 
 MainWindow::~MainWindow()
@@ -48,6 +57,7 @@ void MainWindow::openFile(const QString &fileName){
         }
         String face_cascade = "../WONS/resource/haarcascade_frontalface_default.xml";   //학습된 정보에요
         String eye_cascade = "../WONS/resource/haarcascade_eye.xml";                   //학습된 정보에요
+
 
         Mat gray; // ju
         CascadeClassifier face; //얼굴 정보 저장소
@@ -85,6 +95,8 @@ void MainWindow::openFile(const QString &fileName){
         //image = cvMatToQImage(originMatImage);  // 네모랑 동그라미를  확인하고싶으면 주석풀어요
         //~eye tracker
         originImage->setPixmap(QPixmap::fromImage(image));
+        //image size fit
+        ui->originGraphicsView->fitInView(originImage,Qt::KeepAspectRatio);
 
     }
 }
@@ -103,25 +115,41 @@ void MainWindow::openFile(const QString &fileName){
 //그림 입히기 - 이설희
 void MainWindow::on_covertImage_clicked()
 {
-    //to do
+    int index;
+    /* cat = 0
+     * rudolf = 1
+     * cheek = 2
+     * blusher = 3
+     */
 
-    convertMatImage = originMatImage.clone();
+    //select button
+    ButtonDialog* buttonDialog = new ButtonDialog(this);
+    buttonDialog->setModal(true);
+    if(index = buttonDialog->exec()){
+        //index = buttonDialog->result();
+    }
+    //이게 잘 나오나 확인해 주세요!
+    std::cout<<index<<std::endl;
+
+   // convertMatImage = originMatImage.clone();
 
     Mat deco = imread("/home/caucse/다운로드/rudolph.png", cv::ImreadModes::IMREAD_UNCHANGED);
-    //deco.resize(Size(500,500));
 
 
+
+    convertMatImage = originMatImage.clone();
     //get face point
     //according to face point, resize & rotate deco image
     //overlay deco image
 
+
     decoImage di = decoImage();
 
     cv::resize(deco, deco, cv::Size(face_pos[0].size()), 0, 0, CV_INTER_LINEAR);
-    for(int i=0;i<(int)face_pos.size();i++){
-        Point center(face_pos[i].x, face_pos[i].y - face_pos[i].height);
-        convertMatImage = di.AddImage(convertMatImage, deco, center);
-    }
+    //for(int i=0;i<(int)face_pos.size();i++){
+      //  Point center(face_pos[i].x, face_pos[i].y - face_pos[i].height);
+        //convertMatImage = di.AddImage(convertMatImage, deco, center);
+    //}
 
     /* heart
     cv::resize(deco, deco, cv::Size(50, 50), 0, 0, CV_INTER_LINEAR);
