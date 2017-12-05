@@ -46,13 +46,10 @@ void MainWindow::openFile(const QString &fileName){
             return;
         }
 
-<<<<<<< HEAD
-        String face_cascade = "/home/caucse/mingyu/WONS/resource/haarcascade_frontalface_default.xml";   //학습된 정보에요
-        String eye_cascade = "/home/caucse/mingyu/WONS/resource/haarcascade_eye.xml";                   //학습된 정보에요
-=======
+
         String face_cascade = "../WONS/resource/haarcascade_frontalface_default.xml";   //학습된 정보에요
         String eye_cascade = "../WONS/resource/haarcascade_eye.xml";                   //학습된 정보에요
->>>>>>> 6a8ae4ad61a31201fc2c720ca205093ac874261e
+
         Mat gray; // ju
         CascadeClassifier face; //얼굴 정보 저장소
         CascadeClassifier eye; // 눈 정보 저장소
