@@ -37,7 +37,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_openButton_clicked()
 {
-    const QString fileName = QFileDialog::getOpenFileName(this,"Open Image File",QDir::currentPath());
+    const QString fileName = QFileDialog::getOpenFileName(nullptr, "Open Image File", QDir::currentPath());
     if (!fileName.isEmpty())
         openFile(fileName);
 }
@@ -168,7 +168,6 @@ void onMouseEvent(int event, int x, int y, int flags, void* dstImage){
     if(event != CV_EVENT_LBUTTONDOWN){
         cout << "size :: " << rect_size << endl;
         Mat tempImage = mouseImage.clone();
-        QGraphicsPixmapItem *originImage;
         Rect unClickedRect(x-(rect_size/2), y-(rect_size/2), rect_size, rect_size);
         rectangle(tempImage, unClickedRect, Scalar(255,0,0),1);
         imshow("convertImage", tempImage);
@@ -237,7 +236,7 @@ QImage = cvMatToQImage( cvMat);
 
 void MainWindow::on_saveButton_clicked()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
+    QString fileName = QFileDialog::getSaveFileName(nullptr,
            tr("Save File"), "",
            tr("All Files (*)"));
     string jpgFileName = fileName.toStdString() + ".jpg";

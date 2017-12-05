@@ -49,10 +49,6 @@ private slots:
     void on_Mosaic_clicked(); //모자이크 - 장예솔
     void on_calibration_clicked(); //점 (자동) 없애기 - 허정우
     void on_convertFace_clicked(); //얼굴 바꾸기 - 조민규
-
-
-    void on_openButton_2_clicked();
-
     void on_saveButton_clicked();
 
 private:
