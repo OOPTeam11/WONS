@@ -25,16 +25,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    buttondialog.cpp
 
 HEADERS += \
         mainwindow.h \
     asmOpenCV.h \
     FaceReplace.h \
-    facepicker.h
+    facepicker.h \
+    buttondialog.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    buttondialog.ui
 
 INCLUDEPATH += /usr/local/include/opencv
 INCLUDEPATH += /usr/local/include/opencv2
