@@ -27,7 +27,7 @@ private slots:
 private:
     Ui::ButtonDialog *ui;
     enum{
-        cat,
+        cat = 0,
         rudolf,
         cheek,
         blusher

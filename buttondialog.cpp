@@ -15,24 +15,24 @@ ButtonDialog::~ButtonDialog()
 
 void ButtonDialog::on_catButton_clicked()
 {
-    setResult(cat);
+    done(cat);
     this->close();
 }
 
 void ButtonDialog::on_cheekButton_clicked()
 {
-    setResult(cheek);
+    done(cheek);
     this->close();
 }
 
 void ButtonDialog::on_RudolfButton_clicked()
 {
-    setResult(rudolf);
+    done(rudolf);
     this->close();
 }
 
 void ButtonDialog::on_blusherButton_clicked()
 {
-    setResult(blusher);
+    done(blusher);
     this->close();
 }

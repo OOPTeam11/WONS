@@ -119,15 +119,16 @@ void MainWindow::on_covertImage_clicked()
      * blusher = 3
      */
 
-    //to do
     //select button
-    ButtonDialog buttonDialog(this);
-    buttonDialog.setModal(true);
-    if(buttonDialog.exec()){
-        index = buttonDialog.result();
+    ButtonDialog* buttonDialog = new ButtonDialog(this);
+    buttonDialog->setModal(true);
+    if(index = buttonDialog->exec()){
+        //index = buttonDialog->result();
     }
     //이게 잘 나오나 확인해 주세요!
     std::cout<<index<<std::endl;
+
+    //to do
 
 
     //cvMat is opencv Mat struct
