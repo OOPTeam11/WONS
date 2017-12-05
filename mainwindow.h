@@ -16,7 +16,7 @@
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
 
-
+#include "decoimage.h"
 #include "asmOpenCV.h"
 
 #include "FaceReplace.h"
@@ -50,6 +50,10 @@ private slots:
     void on_calibration_clicked(); //점 (자동) 없애기 - 허정우
     void on_convertFace_clicked(); //얼굴 바꾸기 - 조민규
 
+
+    void on_openButton_2_clicked();
+
+    void on_saveButton_clicked();
 
 private:
     Ui::MainWindow *ui;

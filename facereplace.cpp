@@ -44,13 +44,13 @@ void FaceReplace::replaceAllFace(){
 
             // test
             cout << index << " test" << endl;
-            string title = to_string(index) + "nd";
-            imshow(title, copiedImageMat(faces->at(index)));
+            //string title = to_string(index) + "nd";
+            //imshow(title, copiedImageMat(faces->at(index)));
             // test
-
             Rect face = faces->at(index);
-            Mat destRoi = copiedImageMat(face);
-            domainImageMat.copyTo(copiedImageMat(Rect(face.x, face.y, domainFace.width, domainFace.height)));
+            Mat dst;
+            cv::resize(domainImageMat, dst, cv::Size(face.width, face.height), 0, 0, CV_INTER_LINEAR);
+            dst.copyTo(copiedImageMat(Rect(face.x, face.y, face.width, face.height)));
         }
     }
 }
